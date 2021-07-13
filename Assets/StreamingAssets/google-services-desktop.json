@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "255507886613",
+    "firebase_url": "https://tapbox-dfd73-default-rtdb.firebaseio.com",
+    "project_id": "tapbox-dfd73",
+    "storage_bucket": "tapbox-dfd73.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:255507886613:android:4209d46d406c6a1d70941c",
+        "android_client_info": {
+          "package_name": "com.GameEnjoy.Tapper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "255507886613-932i8plih01roqjl4mtn5km0c11bcphp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeRieYgZlyOcyKl_3EnlOwv5rnUgF1CHs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "255507886613-932i8plih01roqjl4mtn5km0c11bcphp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:255507886613:android:1031d84108a1cc8370941c",
+        "android_client_info": {
+          "package_name": "com.game.Tapper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "255507886613-932i8plih01roqjl4mtn5km0c11bcphp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeRieYgZlyOcyKl_3EnlOwv5rnUgF1CHs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "255507886613-932i8plih01roqjl4mtn5km0c11bcphp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
