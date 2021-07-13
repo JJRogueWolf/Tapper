@@ -38,23 +38,24 @@ public class LeaderBoard : MonoBehaviour
           .GetReference("User")
           .GetValueAsync().ContinueWith(task =>
           {
-              Debug.Log("Recieved");
-              if (task.IsFaulted)
-              {
-                  Debug.Log("Firebase Return Error");
-              }
-              else if (task.IsCompleted)
-              {
-                  DataSnapshot snapshot = task.Result;
-                  foreach (DataSnapshot user in snapshot.Children)
-                  {
-                      IDictionary dictUser = (IDictionary)user.Value;
-                      users.Add(new User(dictUser["id"].ToString(), dictUser["name"].ToString(), dictUser["score"].ToString()));
-                  }
-                  users = users.OrderByDescending(x => x.score).ToList();
-                  Debug.Log(users);
-                  setupList();
-              }
+            Debug.Log("Recieved");
+            if (task.IsFaulted)
+            {
+                Debug.Log("Firebase Return Error");
+            }
+            else if (task.IsCompleted)
+            {
+                DataSnapshot snapshot = task.Result;
+                List<User> currentUser = new List<User>();
+                foreach (DataSnapshot user in snapshot.Children)
+                {
+                    IDictionary dictUser = (IDictionary)user.Value;
+                    currentUser.Add(new User(dictUser["id"].ToString(), dictUser["name"].ToString(), dictUser["score"].ToString()));
+                }
+                users = currentUser.OrderByDescending(x => int.Parse(x.score)).ToList();
+                Debug.Log(users);
+                setupList();
+            }
           });
     }
 
