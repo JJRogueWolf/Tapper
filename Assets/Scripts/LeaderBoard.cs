@@ -34,29 +34,33 @@ public class LeaderBoard : MonoBehaviour
         loadings.SetActive(true);
         users = new List<User>();
         Debug.Log("Started");
-        FirebaseDatabase.DefaultInstance
-          .GetReference("User")
-          .GetValueAsync().ContinueWith(task =>
-          {
-            Debug.Log("Recieved");
-            if (task.IsFaulted)
-            {
-                Debug.Log("Firebase Return Error");
-            }
-            else if (task.IsCompleted)
-            {
-                DataSnapshot snapshot = task.Result;
-                List<User> currentUser = new List<User>();
-                foreach (DataSnapshot user in snapshot.Children)
-                {
-                    IDictionary dictUser = (IDictionary)user.Value;
-                    currentUser.Add(new User(dictUser["id"].ToString(), dictUser["name"].ToString(), dictUser["score"].ToString()));
-                }
-                users = currentUser.OrderByDescending(x => int.Parse(x.score)).ToList();
-                Debug.Log(users);
-                setupList();
-            }
-          });
+        Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+        auth.SignInAnonymouslyAsync().ContinueWith(task =>
+        {
+            FirebaseDatabase.DefaultInstance
+              .GetReference("User")
+              .GetValueAsync().ContinueWith(taskData =>
+              {
+                  Debug.Log("Recieved");
+                  if (task.IsFaulted)
+                  {
+                      Debug.Log("Firebase Return Error");
+                  }
+                  else if (task.IsCompleted)
+                  {
+                      DataSnapshot snapshot = taskData.Result;
+                      List<User> currentUser = new List<User>();
+                      foreach (DataSnapshot user in snapshot.Children)
+                      {
+                          IDictionary dictUser = (IDictionary)user.Value;
+                          currentUser.Add(new User(dictUser["id"].ToString(), dictUser["name"].ToString(), dictUser["score"].ToString()));
+                      }
+                      users = currentUser.OrderByDescending(x => int.Parse(x.score)).ToList();
+                      Debug.Log(users);
+                      setupList();
+                  }
+              });
+        });
     }
 
     private void setupList()

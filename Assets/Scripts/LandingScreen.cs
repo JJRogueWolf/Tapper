@@ -18,6 +18,11 @@ public class LandingScreen : MonoBehaviour
     public TMP_InputField nameInputField;
     DatabaseReference reference;
 
+    public TMP_Text rankText;
+    public TMP_Text rankTitleText;
+
+    private int rank = 0;
+
     public class User
     {
         public string id;
@@ -34,56 +39,72 @@ public class LandingScreen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        rank = 0;
         splashScreen.SetActive(true);
+        rankText.gameObject.SetActive(false);
+        rankTitleText.gameObject.SetActive(false);
 
         reference = FirebaseDatabase.DefaultInstance.RootReference;
         myId = SystemInfo.deviceUniqueIdentifier;
         Debug.Log("My ID " + myId);
 
-        FirebaseDatabase.DefaultInstance
-          .GetReference("User")
-          .GetValueAsync().ContinueWith(task =>
-          {
-              if (task.IsFaulted)
+        Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+        auth.SignInAnonymouslyAsync().ContinueWith(task =>
+        {
+            FirebaseDatabase.DefaultInstance
+              .GetReference("User")
+              .GetValueAsync().ContinueWith(taskData =>
               {
-                  Debug.Log("Firebase Return Error");
-              }
-              else if (task.IsCompleted)
-              {
-                  DataSnapshot snapshot = task.Result;
-                  foreach (DataSnapshot user in snapshot.Children)
+                  if (task.IsFaulted)
                   {
-                      IDictionary dictUser = (IDictionary)user.Value;
-                      if (dictUser["id"].ToString().Equals(myId))
-                      {
-                          currentUser = new User(dictUser["id"].ToString(), dictUser["name"].ToString(), dictUser["score"].ToString());
-                      }
-                      print(dictUser["id"] + ", My ID : " + myId);
+                      Debug.Log("Firebase Return Error");
                   }
-              }
+                  else if (task.IsCompleted)
+                  {
+                      DataSnapshot snapshot = taskData.Result;
+                      foreach (DataSnapshot user in snapshot.Children)
+                      {
+                          IDictionary dictUser = (IDictionary)user.Value;
+                          rank += 1;
+                          if (dictUser["id"].ToString().Equals(myId))
+                          {
+                              currentUser = new User(dictUser["id"].ToString(), dictUser["name"].ToString(), dictUser["score"].ToString());
+                          }
+                          print(dictUser["id"] + ", My ID : " + myId);
+                      }
+                  }
 
-              splashScreen.SetActive(false);
+                  splashScreen.SetActive(false);
 
-              if (currentUser == null)
-              {
-                  currentUser = new User(myId, "Player", "0");
-                  string nameString = currentUser.name + Random.Range(1, 9999);
-                  nameInputField.text = nameString;
-                  //nameInputField.text = currentUser.name;
-                  Debug.Log("New User");
-              } else
-              {
-                  string nameString = currentUser.name;
-                  nameInputField.text = nameString;
-                  //nameInputField.text = ;
-              }
-          });
+                  if (currentUser == null)
+                  {
+                      currentUser = new User(myId, "Player", "0");
+                      string nameString = currentUser.name + Random.Range(1, 9999);
+                      nameInputField.text = nameString;
+                      //nameInputField.text = currentUser.name;
+                      Debug.Log("New User");
+                  }
+                  else
+                  {
+                      rankText.text = rank.ToString();
+                      rankText.gameObject.SetActive(true);
+                      rankTitleText.gameObject.SetActive(true);
+                      string nameString = currentUser.name;
+                      nameInputField.text = nameString;
+                      //nameInputField.text = ;
+                  }
+              });
+        });
     }
 
     public void onStartClicked()
     {
         currentUser.name = nameInputField.text;
-        reference.Child("User").Child(currentUser.id).SetRawJsonValueAsync(JsonUtility.ToJson(currentUser));
-        SceneManager.LoadScene(1);
+        Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+        auth.SignInAnonymouslyAsync().ContinueWith(task =>
+        {
+            reference.Child("User").Child(currentUser.id).SetRawJsonValueAsync(JsonUtility.ToJson(currentUser));
+            SceneManager.LoadScene(3);
+        });
     }
 }
