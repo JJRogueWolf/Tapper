@@ -10614,14 +10614,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 668533492}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1af18dd0fb8efe0478fb1eebb33ada25, type: 3}
+  m_Script: {fileID: 11500000, guid: 0111149f6374dd1429f132a3d5d2dea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   platformManager: {fileID: 212242669}
   cubeColor: {fileID: 471411460}
   RetryScreen: {fileID: 2098708165}
   cubeColorChange: {fileID: 471411460}
-  speed: 10
+  speed: 8
   bgm: {fileID: 8300000, guid: 3c544f9eb3b65de408ea92a9ed0abf49, type: 3}
   endAudio: {fileID: 8300000, guid: 5be44ced33e543040bae245382963047, type: 3}
 --- !u!82 &668533496
@@ -21804,7 +21804,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2136116368}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -24.999031}
+  m_LocalPosition: {x: 0, y: 0, z: -38}
   m_LocalScale: {x: 0.68699, y: 0.68699, z: 0.68699}
   m_Children: []
   m_Father: {fileID: 2098708166}
@@ -21812,7 +21812,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 14.015869, y: -150.70068}
+  m_AnchoredPosition: {x: 14.015869, y: -151}
   m_SizeDelta: {x: 1702.2, y: 367.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2136116370
@@ -21828,7 +21828,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: -1
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
