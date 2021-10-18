@@ -13,6 +13,7 @@ public class LeaderBoard : MonoBehaviour
     public GameObject listDataPrefab;
 
     private List<User> users;
+    private string id;
 
     public class User
     {
@@ -31,6 +32,7 @@ public class LeaderBoard : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        id = SystemInfo.deviceUniqueIdentifier;
         loadings.SetActive(true);
         users = new List<User>();
         Debug.Log("Started");
@@ -65,8 +67,8 @@ public class LeaderBoard : MonoBehaviour
 
     private void setupList()
     {
-        Debug.Log("Setting List");
-        string id = SystemInfo.deviceUniqueIdentifier;
+        
+        Debug.Log("Setting List " + id);
         loadings.SetActive(false);
         int myPosition = -1;
         for(int i = 0; i < users.Count; i++)
@@ -103,14 +105,20 @@ public class LeaderBoard : MonoBehaviour
 
     private void createListTile(int position)
     {
-        User user = users[position];
-        GameObject list = Instantiate(listDataPrefab) as GameObject;
-        list.transform.SetParent(scrollContentHolder.transform);
-        list.transform.localScale = new Vector3(1, 1, 1);
-        list.transform.localPosition = new Vector3(0, 0, 0);
-        list.transform.Find("rank").GetComponent<Text>().text = (position + 1).ToString();
-        list.transform.Find("name").GetComponent<Text>().text = user.name;
-        list.transform.Find("score").GetComponent<Text>().text = user.score;
+        try
+        {
+            User user = users[position];
+            GameObject list = Instantiate(listDataPrefab);
+            list.transform.SetParent(scrollContentHolder.transform);
+            list.transform.localScale = new Vector3(1, 1, 1);
+            list.transform.localPosition = new Vector3(0, 0, 0);
+            list.transform.Find("rank").GetComponent<Text>().text = (position + 1).ToString();
+            list.transform.Find("name").GetComponent<Text>().text = user.name;
+            list.transform.Find("score").GetComponent<Text>().text = user.score;
+        } catch(UnityException e)
+        {
+            Debug.Log(" " + e.ToString());
+        }
     }
 
 

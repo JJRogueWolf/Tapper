@@ -10,6 +10,7 @@ public class GameMainFile : MonoBehaviour
     public PlatformManager platformManager;
     public CubeColorChange cubeColor;
     public GameObject RetryScreen;
+    public gameGoogleAdsScript adsScript;
 
     public CubeColorChange cubeColorChange;
 
@@ -47,6 +48,7 @@ public class GameMainFile : MonoBehaviour
     // Start is called before the first frame update 
     void Start()
     {
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
         start = false;
         audioSource = GetComponent<AudioSource>();
         audioSource.clip = bgm;
@@ -82,6 +84,10 @@ public class GameMainFile : MonoBehaviour
             });
         });
         RetryScreen.SetActive(false);
+        if (adsScript.bannerView != null)
+        {
+            adsScript.bannerView.Hide();
+        }
         platformManager.spawnSpeed = 0.1f;
         StartCoroutine(increamentSpeed());
         StartCoroutine(startGame());
@@ -106,6 +112,10 @@ public class GameMainFile : MonoBehaviour
                     audioSource.Play();
                 }
                 RetryScreen.SetActive(true);
+                if (adsScript.bannerView != null)
+                {
+                    adsScript.bannerView.Show();
+                }
                 RetryScreen.GetComponent<Animator>().SetTrigger("end_screen");
                 print(cubeColorChange.score);
                 saveScore();
@@ -146,12 +156,20 @@ public class GameMainFile : MonoBehaviour
     public void RestartGame()
     {
         SceneManager.LoadScene(1);
+        if (adsScript.bannerView != null)
+        {
+            adsScript.bannerView.Destroy();
+        }
         //Application.LoadLevel(Application.loadedLevel);
     }
 
     public void ExitrtGame()
     {
         SceneManager.LoadScene(2);
+        if (adsScript.bannerView != null)
+        {
+            adsScript.bannerView.Destroy();
+        }
         //Application.LoadLevel(Application.loadedLevel);
     }
 
