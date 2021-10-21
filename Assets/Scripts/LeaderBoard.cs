@@ -11,6 +11,7 @@ public class LeaderBoard : MonoBehaviour
     public GameObject loadings;
     public GameObject scrollContentHolder;
     public GameObject listDataPrefab;
+    public gameGoogleAdsScript adsScript;
 
     private List<User> users;
     private string id;
@@ -39,6 +40,7 @@ public class LeaderBoard : MonoBehaviour
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
         auth.SignInAnonymouslyAsync().ContinueWith(task =>
         {
+            adsScript.bannerView.Show();
             FirebaseDatabase.DefaultInstance
               .GetReference("User")
               .GetValueAsync().ContinueWith(taskData =>
@@ -67,7 +69,6 @@ public class LeaderBoard : MonoBehaviour
 
     private void setupList()
     {
-        
         Debug.Log("Setting List " + id);
         loadings.SetActive(false);
         int myPosition = -1;
@@ -82,41 +83,50 @@ public class LeaderBoard : MonoBehaviour
         {
             for (int i = 0; i < users.Count; i++)
             {
-                createListTile(i);
+                if (users[i] != null)
+                {
+                    createListTile(i, myPosition);
+                }
             }
         }
         else
         {
             for (int i = 0; i < 9; i++)
             {
-                createListTile(i);
+                if (users[i] != null)
+                {
+                    createListTile(i, myPosition);
+                }
             }
             if(myPosition < 9)
             {
-                createListTile(9);
+                createListTile(9, myPosition);
             }
             else
             {
-                createListTile(myPosition);
+                createListTile(myPosition, myPosition);
             }
             
         }
     }
 
-    private void createListTile(int position)
+    private void createListTile(int position, int myPosition)
     {
         try
         {
             User user = users[position];
             GameObject list = Instantiate(listDataPrefab);
+            if(position == myPosition)
+            {
+                list.GetComponent<LeaderboardCardScript>().setSelectedImage();
+            }
             list.transform.SetParent(scrollContentHolder.transform);
             list.transform.localScale = new Vector3(1, 1, 1);
             list.transform.localPosition = new Vector3(0, 0, 0);
             list.transform.Find("rank").GetComponent<Text>().text = (position + 1).ToString();
             list.transform.Find("name").GetComponent<Text>().text = user.name;
             list.transform.Find("score").GetComponent<Text>().text = user.score;
-        } catch(UnityException e)
-        {
+        } catch(UnityException e) {
             Debug.Log(" " + e.ToString());
         }
     }

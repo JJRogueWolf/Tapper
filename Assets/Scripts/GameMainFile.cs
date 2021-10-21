@@ -10,7 +10,7 @@ public class GameMainFile : MonoBehaviour
     public PlatformManager platformManager;
     public CubeColorChange cubeColor;
     public GameObject RetryScreen;
-    public gameGoogleAdsScript adsScript;
+    public gameGoogleAdsScript adsScript;  
 
     public CubeColorChange cubeColorChange;
 

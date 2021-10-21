@@ -8,6 +8,6 @@ public class ConstantRotation : MonoBehaviour
 
     void Update()
     {
-        transform.Rotate(0, 0, spinSpeed * Time.deltaTime);
+        transform.Rotate(0, 0, - spinSpeed * Time.deltaTime);
     }
 }
