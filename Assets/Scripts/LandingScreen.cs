@@ -45,6 +45,7 @@ public class LandingScreen : MonoBehaviour
         splashScreen.SetActive(true);
         rankText.gameObject.SetActive(false);
         rankTitleText.gameObject.SetActive(false);
+        FirebaseDatabase.DefaultInstance.GoOnline();
 
         reference = FirebaseDatabase.DefaultInstance.RootReference;
         myId = SystemInfo.deviceUniqueIdentifier;
